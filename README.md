@@ -140,8 +140,6 @@ CMD ["./shiny.sh"]
 
 ```
 
-
-
 ### 2.2. Build the image 
 
 ```
