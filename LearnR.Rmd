@@ -10,7 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-
 ## Topic 1
 
 ### Exercise 
