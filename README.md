@@ -3,6 +3,8 @@ LearnR tutorial, and scripts to deploy on the cloud.
 
 # How to run the RShiny app locally
 
+You should have R and the 'learnr' library installed.
+
 * Modify the LearnR.Rmd file with your tutorial
 
 * Make the file 'shiny.sh' executable: 
