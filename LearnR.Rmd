@@ -6,8 +6,9 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
+library(testwhat)
 knitr::opts_chunk$set(echo = TRUE)
-
+tutorial_options(exercise.checker = testwhat_learnr)
 ```
 
 ## Topic 1
@@ -20,6 +21,14 @@ Write the R code required to add two plus two:
 
 ```{r two-plus-two, exercise=TRUE}
 
+```
+
+```{r two-plus-two-solution}
+2 + 2
+```
+
+```{r two-plus-two-check}
+ex() %>% check_operator("+") %>% check_result() %>% check_equal()
 ```
 
 ### Exercise with Code
