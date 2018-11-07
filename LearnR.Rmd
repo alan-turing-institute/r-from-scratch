@@ -43,6 +43,33 @@ add <- function() {
 }
 ```
 
+```{r add-function-solution}
+# Correct function form
+add <- function(x, y) {
+  return(x + y)
+}
+
+# Function call with arbitrary numbers
+add(6, 1)
+```
+
+```{r add-function-check}
+# Checks function and calls with various inputs
+ex() %>% check_fun_def("add") %>% {
+  check_arguments(.)
+  check_call(., 1, 2) %>% check_result() %>% check_equal()
+  check_call(., -1, 2) %>% check_result() %>% check_equal()
+  check_call(., 1, -2) %>% check_result() %>% check_equal()
+  check_call(., -1, -2) %>% check_result() %>% check_equal()
+  check_body(.) %>% {
+    check_operator(., "+")
+  }
+}
+
+# Checks the function is called correctly
+ex() %>% check_function("add")
+```
+
 ## Topic 2
 
 ### Exercise with Hint
@@ -57,6 +84,19 @@ mtcars
 
 ```{r print-limit-hint}
 head(mtcars)
+```
+
+```{r print-limit-solution}
+# n argument limits the number of lines, default is 6L
+head(mtcars, n=5L)
+```
+
+```{r print-limit-check}
+# Checks that head is called and both arguments are correct
+ex() %>% check_function("head") %>% {
+  check_arg(., "x") %>% check_equal()
+  check_arg(., "n") %>% check_equal()
+}
 ```
 
 ### Quiz
