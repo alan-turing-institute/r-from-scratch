@@ -444,30 +444,13 @@ tail(gender_data)
 ```
 
 ``` {r headtail-check}
+ex() %>% check_function("head") %>% check_result() %>% check_equal()
 state <- ex()
 check_function(state, "head") %>% check_arg("x") %>% check_equal()
 
-# This section of the code check gives an incorrect answer to the head section.
-#check_output(state,
-#  '1    Afghanistan   4\\.95450  19961015094[[:space:]]+     161\\.1380',
-#  missing_msg='Did you display the value for "head(gender_data)"?')
-
-# This gives a correct answer, but adding more to the regex arg causes an incorrect message.
-check_output(state,
-             'Afghanistan',
-             missing_msg='Did you display the value for "head(gender_data)"?')
-
+ex() %>% check_function("tail") %>% check_result() %>% check_equal()
+state <- ex()
 check_function(state, "tail") %>% check_arg("x") %>% check_equal()
-
-# This section of the code check gives an incorrect answer for the tail section.
-#check_output(state,
-#  '258 Virgin Islands \\(U\\.S\\.\\)  1\\.760000 3\\.812000e\\+09',
-#  missing_msg='Did you display the value for "tail(gender_data)"?')
-
-# This gives a correct answer, but adding more to the regex arg causes an incorrect message.
-check_output(state,
-             'Virgin Islands',
-             missing_msg='Did you display the value for "tail(gender_data)"?')
 ```
 
 ## 3. Working with Columns
