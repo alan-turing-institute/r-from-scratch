@@ -1,0 +1,958 @@
+---
+title: 'R from Scratch'
+description: An Introduction to R for Complete Beginners
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(testwhat)
+knitr::opts_chunk$set(echo=TRUE)
+tutorial_options(exercise.checker=testwhat_learnr)
+```
+
+## 1. The R Way
+
+R is a language that allows you to define your data analysis in words. This may be an unfamiliar way of working, but experience shows that this approach quickly leads to a large increase in power and efficiency.
+
+### R is not Excel
+
+![](https://player.vimeo.com/video/298272711)
+
+### A First Analysis in R
+
+The first exercise is to run the analysis from the video.
+
+The data we are analyzing are a subset from this dataset from the World Bank on gender and inequality: <https://data.worldbank.org/data-catalog/gender-statistics>.
+
+The subset is a selection of variables for every country. For each variable, we have taken the mean of all available values from 2012 through 2016.
+
+Here are the data files:
+
+* [variable description](http://bit.ly/gender-stats-variables)
+* [data file](http://bit.ly/gender-stats-data).
+
+As you have already seen, we will load some data, and have a look at the first few rows.
+
+Don't worry about the details of how this works, we will come back to those over the rest of the course.
+
+Below you will see a code cell with some R code, ready to run.
+
+Click on the "Run Code" button to run the analysis.  You will see the output below the cell.
+
+```{r example, exercise=TRUE}
+# Read the data into memory
+print("here")
+print(getwd())
+gender_data <- read.csv('gender_data.csv')
+
+# Show the first 6 rows
+head(gender_data)
+
+# Plot Health Expenditure Per Capita (x axis) against the Maternal Mortality Ratio (y axis)
+plot(gender_data$health_exp_per_cap, gender_data$mat_mort_ratio)
+```
+
+### Introduction to Variables
+
+![](//player.vimeo.com/video/298409140)
+
+### Variable Interlude
+
+Now you know about variables, go over to <https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1> to learn more about:
+
+* the DataCamp interface, and
+* variables in R.
+
+Just do that chapter from the tutorial. When you get to the page *Create a vector* - stop, and come back to this page.
+
+Now here is a little revision exercise.
+
+We are back to variables, after the exercises at <https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1>.
+
+**Q.** Remember the fruit from those exercises? Now we get exotic.
+
+* Create a variable called `my_pomegranates` and set it equal to 112.
+
+* Create another variable called `my_kiwis` and set it equal to 92.
+
+* Create a third variable called `my_exotic_fruits` and set it equal to the sum of `my_pomegranates` and `my_kiwis`.
+
+```{r vars, exercise=TRUE, exercise.lines=9}
+# Create a variable called "my_pomegranates" and set it equal to 112.
+
+
+# Create another variable called "my_kiwis" and set it equal to 92.
+
+
+# Create a third variable called "my_exotic_fruits" and set it equal to the sum of `my_pomegranates` and "my_kiwis"
+
+```
+
+```{r vars-hint}
+"Go back through <https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1> for inspiration, if you can't remember how to set variables."
+```
+
+```{r vars-solution}
+# Create a variable called "my_pomegranates" and set it equal to 112.
+my_pomegranates <- 112
+
+# Create another variable called "my_kiwis" and set it equal to 92.
+my_kiwis <- 92
+
+# Create a third variable called "my_exotic_fruits" and set it equal to the sum of `my_pomegranates`
+# and "my_kiwis"
+my_exotic_fruits <- my_pomegranates + my_kiwis
+```
+
+```{r vars-check}
+ex() %>% check_object("my_pomegranates") %>% check_equal()
+ex() %>% check_object("my_kiwis") %>% check_equal()
+ex() %>% check_object("my_exotic_fruits") %>% check_equal()
+
+success_msg("Well done - you are all over variables")
+```
+
+### Variables and Types
+
+This tiny exercise is more revision from <https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1>.
+
+Remember that the first line of R code we ran in this tutorial was:
+
+```
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```
+
+In the variables tutorial, you found how to find what type of thing a variable contained, using the `class` function.
+
+You saw examples of numeric variables, and character variables.
+
+`gender_data` is also a variable.  As you remember, a variable is a name that points to a thing.
+
+**Q.** What type of thing does `gender_data` point to? Use `class` to show the type of thing `gender_data` points to.
+
+```{r class, exercise=TRUE}
+# First we create the variable again
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Here, write the code to display what type of thing "gender_data" is pointing to.
+
+```
+
+```{r class-hint}
+To show what type of thing a variable `my_variable` points to, use `class(my_variable)`.
+```
+
+```{r class-solution}
+# First we create the variable again
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Here, write the code to display what type of thing "gender_data" is pointing to.
+class(gender_data)
+```
+
+```{r class-check}
+ex() %>% check_output("data\\.frame", missing_msg = "Did you display the class() of the gender_data?")
+```
+
+## 2. Data Frames and Functions
+
+We use functions to examine data frames.
+
+### Functions and the Data Frame
+
+In the last chapter, you found that the `gender_data` variable points to a `data.frame`.
+
+This is a new type of thing that we have not seen before.  It is not a number or a character or a logical, it is a special type that contains a *table* of data.
+
+The data frame object is rather like a spreadsheet in Excel, but more specialized.
+
+In a typical R data analysis, we read the data into a data frame, and then we explore the data frame.
+
+We will be exploring the `gender_data` data frame for the next exercises.
+
+R has many utilities that are useful for telling us about data frames.  These are in the form of *functions*.
+
+You have used functions in mathematics.  For example, you might write $y = sin(x)$.  Here `sin` is the _function_, and `x` (inside the parentheses) is the _argument_.  $sin(x)$ means - apply the function `sin` to the argument `x`, and return the value.
+
+R functions work the same way.
+
+In fact you have already seen a function.  Remember our first line:
+
+```
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```
+
+On the Left Hand Side we have `gender_data` - the new name we give to the thing on the Right Hand Side.  The Right Hand Side is a *function call*.  The function is `read.csv`.  The argument is the URL `'http://bit.ly/gender-stats-data'`.  We *call* the `read.csv` function with the argument `'http://bit.ly/gender-stats-data'` to return a value, where the value is the data frame.
+
+R has many useful functions that work on data frames.  Let's start with the function `dim`.
+
+The `dim` function displays the number of rows and columns in the data frame. In the code cell, you will see the code to call the `dim` function with the `gender_data` data frame as the argument (`gender_data` is already loaded). Run the code to see what `dim` returns.
+
+```{r get-gender-data}
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```
+
+```{r dim, exercise=TRUE, exercise.setup="get-gender-data"}
+# Call the "dim" function on the data frame.
+dim(gender_data)
+```
+
+### A dim question
+
+```{r quiz1, echo=FALSE}
+question("Looking at the output, which of the following is true?",
+    answer("`gender_data` has 263 columns and 8 rows",
+           message="Look carefully at two values output from 'dim'. What is the order of the values - rows and columns, or columns and rows?"),
+    answer("`gender_data` has 263 rows and 8 columns", correct=TRUE,
+           message="Yes, dim shows number of rows and number of columns."),
+    answer("the output from `dim` does not tell us the number of rows and columns",
+           message="'dim' does show us the number of rows and columns."),
+    allow_retry=TRUE
+)
+```
+
+<div id="quiz1">
+**HINT:** The first output from `dim` is the number of rows.
+</div>
+
+### Column Names
+
+`names` is another useful function that operates on data frames.
+
+It shows us the names of the columns.
+
+For example, say we have a variable `df` that points to a data frame.  We can show the names of the columns with:
+
+```
+names(df)
+```
+
+**Q.** Use the `names` function with the `gender_data` data frame as an argument, to show the names of the data frame columns. `gender_data` is already loaded.
+
+```{r names, exercise=TRUE, exercise.setup="get-gender-data"}
+# Display the names from the gender_data data frame
+
+```
+
+```{r names-hint}
+You will need something starting with `names(` and ending with `)`. What goes inside the brackets?
+```
+
+```{r names-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Display the names from the gender_data data frame
+names(gender_data)
+```
+
+```{r names-check}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+ex() %>% check_function("names") %>% {
+  check_arg(., "x") %>% check_equal()
+}
+
+state <- ex()
+for (name in names(gender_data)) {
+  check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
+}
+```
+
+### Structure of the Data Frame
+
+Another way of getting a quick view of the data frame is to use the `str` function.
+
+We have now seen several functions, and we will see several more.  It will soon be difficult to remember exactly what each of these functions do.
+
+To get help for a function, go to the code cell below, and type `?` followed by the function name.  For example, try typing `?str` and pressing Run Code.  You should see the help for the `str` function appear below.
+
+```{r help, exercise=TRUE}
+
+```
+
+As you will see from the help, `str` shows the "structure" of an R "object" - such as a data frame.
+
+**Q.** Use the `str` function with the `gender_data` data frame as an argument, to show the structure of the `gender_data` data frame. `gender_data` is already loaded.
+
+```{r structure, exercise=TRUE, exercise.setup="get-gender-data"}
+# Display the structure of the gender_data data frame
+
+```
+
+```{r structure-hint}
+You will need something starting with `str(` and ending with `)`. What goes inside the brackets?
+```
+
+```{r structure-solution}
+# Load the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Display the structure of the gender_data data frame
+str(gender_data)
+```
+
+```{r structure-check}
+# Load the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+state <- ex()
+check_function(state, "str") %>% check_arg("object") %>% check_equal()
+
+for (name in names(gender_data)) {
+  check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
+}
+
+check_output(state, '263 obs. of  8 variables',
+             missing_msg='Expecting to see no of observations and variables')
+```
+
+```{r quiz2, echo=FALSE}
+question("What's the structure of `gender_data`?",
+    answer("`gender_data` has one column of type 'num' (numerical) and seven columns of type 'character'.",
+           message="Look at the column data types, after the column names in the ouput."),
+    answer("`gender_data` has four columns of type 'num' (numerical) and four columns of type 'character'.",
+           message="Look at the column data types, after the column names in the ouput."),
+    answer("`gender_data` has one column of type 'Character' and seven of type 'num' (numerical).",
+           message="Look at the column data types, after the column names in the ouput."),
+    answer("`gender_data` has one column of type 'Factor' and seven of type 'num' (numerical).", correct=TRUE,
+           message="Yes, right, there is one Factor columns and seven numerical columns and one Factor column."),
+    allow_retry=TRUE
+)
+```
+
+<div id=quiz2-hint>
+**HINT:** `str` output has one line per column. The line starts with a `$` followed by the variable name, followed by the data type.
+</div>
+
+### Summarizing
+
+Functions like `dim`, `names` and `str` show us the layout of the data, but we often want more information on the values in the columns.
+
+`summary` is a powerful function that generates descriptive statistics for the data in each column.
+
+Try `?summary` in the code cell for more information.
+
+```{r summary-test, exercise=TRUE}
+
+```
+
+For the numerical columns, you will see minimum, maximum, median, mean, and various other useful descriptive statistics.
+
+**Q.** Use the `summary` function with the `gender_data` data frame as an argument, to show descriptive statistics for each column. `gender_data` is already loaded.
+
+```{r summary, exercise=TRUE, exercise.setup="get-gender-data"}
+# Display summary statistics from the gender_data data frame
+
+```
+
+```{r summary-hint}
+You will need something starting with `summary(` and ending with `)`. What goes inside the brackets?
+```
+
+```{r summary-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Display summary statistics from the gender_data data frame
+summary(gender_data)
+```
+
+```{r summary-check}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+state <- ex()
+check_function(state, "summary") %>% check_arg("object") %>% check_equal()
+
+for (name in names(gender_data)) {
+  check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
+}
+
+check_output(state, 'Median',
+             missing_msg='Expecting to see medians')
+check_output(state, "NA's   :34",
+             missing_msg='Expecting to see NA counts')
+```
+
+### What's in a summary?
+
+Each column in the output has the summary statistics for one variable.
+
+The first column is `country` - which is not a numerical variable. The summary statistics for that variable are not very interesting.
+
+The output prints some very large numbers in scientific notation.  For example, the number `9.888e+06` means $9.888 * 10^6$ - i.e `9888000`.
+
+```{r quiz3, echo=FALSE}
+question("Which of the following statements is true?",
+  answer("The median is less than the mean for all numerical variables.",
+         message="Have a look at the median and mean for 'prim_ed_girls'."),
+  answer("The median is greater than the mean for all numerical variables.",
+         message="Have a look at the median and mean for 'fert_rate'."),
+  answer("The median is less than the mean for all numerical variables except `mat_mort_ratio`.",
+         message="Have a closer look at the median and mean for 'mat_mort_ratio'"),
+  answer("The median is less than the mean for all numerical variables except `prim_ed_girls`.", correct=TRUE,
+         message="Yes, the median, mean for 'prim_ed_girls' are 48.52, 48.24."),
+  allow_retry=TRUE
+)
+```
+
+<div id=quiz3-hint>
+**HINT:** `9.888e+06` (9888000) is less than `2.934e+08` (293400000).
+</div>
+
+### Heads and Tails
+
+Another common way to get a quick idea of the data frame, is to look at a small sample of the rows.
+
+You have already seen the `head` function. By default, `head` will show the first six rows in a data frame (and all the columns).
+
+You have can also use the `tail` function. By default, that will show the last six rows in a data frame (and all the columns).
+
+**Q.** Use the `head` function with the `gender_data` data frame, to show the first six rows of the data frame. Then show the _last_ six rows with `tail`. `gender_data` is already loaded.
+
+```{r headtail, exercise=TRUE, exercise.setup="get-gender-data"}
+# Display the first six rows from the gender_data data frame.
+
+
+# Now display the last six rows from the data frame.
+
+```
+
+``` {r headtail-hint}
+Did you use both `head` and `tail` on `gender_data`?
+```
+
+```{r headtail-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Display the first six rows from the gender_data data frame.
+head(gender_data)
+
+# Now display the last six rows from the data frame.
+tail(gender_data)
+```
+
+``` {r headtail-check}
+state <- ex()
+check_function(state, "head") %>% check_result() %>% check_equal()
+check_function(state, "head") %>% check_arg("x") %>% check_equal()
+
+check_function(state, "tail") %>% check_result() %>% check_equal()
+check_function(state, "tail") %>% check_arg("x") %>% check_equal()
+```
+
+## 3. Working with Columns
+
+Data frames contain data, arranged in columns. In this chapter we get the column data and analyze it, using descriptive statistics.
+
+### Getting Columns with Dollars
+
+We have already seen that a data frame consists of rows and columns.
+
+We often want to look at the data in a particular column.
+
+One common way of getting at a columns in a data frame is to use the `$` between the name of the data frame and the name of the column.
+
+For example, to display all the values in the `health_exp_per_cap` column of the `gender_data` data frame, I could execute this code:
+
+```
+gender_data$health_exp_per_cap
+```
+
+**Q.** Try it in the code cell below. Use the `$` method to display all the values in the `mat_mort_ratio` column of `gender_data`. `gender_data` is already loaded.
+
+```{r dollar, exercise=TRUE, exercise.setup="get-gender-data"}
+# Display all values of the mat_mort_ration column
+
+```
+
+```{r dollar-hint}
+You should have something like `gender_data$` followed by the column name.
+```
+
+```{r dollar-solution}
+# Load in data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Display all values of the mat_mort_ration column
+gender_data$mat_mort_ratio
+```
+
+```{r dollar-check}
+state <- ex()
+check_output(state, '444\\.00',
+             missing_msg='Expecting to see first value')
+check_output(state, '398\\.00',
+             missing_msg='Expecting to see last value')
+```
+
+### Columns as Variables
+
+This is a little revision and expansion on variables.
+
+In the exercise you have just done, you displayed all the values for the `mat_mort_ratio` column with:
+
+```
+gender_data$mat_mort_ratio
+```
+
+Instead of printing out the values in the column, we may want to point to these values with a variable name. We do this in exactly the same way as we do when setting other variables. For example, here we give the name `mat_mort_vals` to the `mat_mort_ratio` column.
+
+```
+mat_mort_vals <- gender_data$mat_mort_ratio
+```
+
+**Q.** Make a new variable `health_exp_col` that points to the `health_exp_per_cap` column in the `gender_data` data frame.  Display the contents of your new `health_exp_col` variable. `gender_data` is already loaded.
+
+```{r point, exercise=TRUE, exercise.setup="get-gender-data"}
+# Make a variable pointing to the health_exp_per_cap column
+
+
+# Display the contents of your new variable
+
+```
+
+```{r point-hint}
+You should start with a line starting `health_exp_col <- gender_data$`.
+```
+
+```{r point-solution}
+# Load in data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Make a variable pointing to the health_exp_per_cap column
+health_exp_col <- gender_data$health_exp_per_cap
+
+# Display the contents of your new variable
+health_exp_col
+```
+
+```{r point-check}
+state <- ex()
+check_object(state, "health_exp_col") %>% check_equal()
+check_output(state, '161\\.13803',
+             missing_msg='Expecting to see first value of health_exp_col')
+check_output(state, '115\\.51988',
+             missing_msg='Expecting to see last value of health_exp_col')
+```
+
+### What's in an NA?
+
+You just made a variable `health_exp_col` that points to the `health_exp_per_cap` column of the `gender_data` data frame. Then you displayed the values.
+
+Look at the last ten values or so of `health_exp_col`. Most of these are numbers, but a couple are `NA`.
+
+`NA` is a value in R that means "Not available". For our case, some countries (rows) had no data available for health expenditure per capita between 2012 and 2016.
+
+Now use the code cell to show the last 6 rows in the data frame with `tail(gender_data)`. Look at the `health_exp_per_cap` column. `gender_data` is already loaded.
+
+```{r dftail, exercise=TRUE, exercise.setup="get-gender-data"}
+# Use tail on gender_data
+
+```
+
+```{r quiz4, echo=FALSE}
+question("The last two countries with `NA` for `health_exp_per_cap` are:",
+    answer("'American Somoa' and 'Andorra'",
+           message="Did you use 'head(gender_data)' instead of 'tail(gender_data)'?"),
+    answer("'Virgin Islands (U.S)' and 'West Bank and Gaza'", correct=TRUE,
+           message="Yes, those are the last two countries with NA in 'health_exp_per_cap."),
+    answer("'Zambia' and 'Zimbabwe'",
+           message="Check that you are looking for the countries with NA in 'health_exp_per_cap."),
+    allow_retry=TRUE
+)
+```
+
+<div id=quiz4-hint>
+**HINT:** Make sure you are looking at the _last_ 6 rows.  Find the NAs in the `health_exp_per_cap` column, and look at the corresponding values for `country`, for those same rows.
+</div>
+
+### What's a Mean to do?
+
+We have a variable `health_exp_col` that points to the `health_exp_per_cap` column of the `gender_data` data frame. We just found out that some countries have missing data for this column - they have `NA` values.
+
+Now consider what would happen if we calculate a mean over these values. Some things R could do are:
+
+* refuse to do a calculation with `NA` values and return `NA`.
+* refuse to do a calculation with `NA` values and show an error.
+* drop all the NA values, and take the mean of the rest.
+
+Run `mean(health_exp_col)` in the code cell below and look at the result. `gender_data` is already loaded.
+
+```{r mean, exercise=TRUE, exercise.setup="get-gender-data"}
+# Make a variable pointing to the health_exp_per_cap column
+health_exp_col <- gender_data$health_exp_per_cap
+
+# Calculate the mean of health_exp_col
+
+```
+
+```{r quiz5, echo=FALSE}
+question("What does R do?",
+    answer("Refuses to do a calculation with `NA` values and returns `NA`.", correct=TRUE,
+           message="Yes - the mean returns an NA, by default, if any value is NA."),
+    answer("Refuses to do a calculation with `NA` values and shows an error.",
+           message="When R shows an error, it will give an error message."),
+    answer("Drops all the NA values, and takes the mean of the rest.",
+           message="If that were true, you should see the mean of the not-NA values in the console."),
+    allow_retry=TRUE
+)
+```
+
+<div id=quiz5-hint>
+**HINT:** Have a look at the code cell result. Was there an error? Is there a number (the mean of the not-missing values)? Or is there an `NA`?
+</div>
+
+### More Arguments
+
+We found that, by default, R refuses to calculate a mean, when there are `NA` values.
+
+We might prefer R to drop the `NA` values, and calculate the mean on the rest. Of course we have to be very careful interpreting the result - it will not be representative of all countries.
+
+Almost all functions in R allow us to give extra _options_. We do this using something called *keyword arguments*.  These have the form `option_name=value`.
+
+In our case, we want to use the `na.rm` option.
+
+The code to use the `na.rm` option is in the script window. Run the code to see the result. `gender_data` is already loaded.
+
+```{r na, exercise=TRUE, exercise.setup="get-gender-data"}
+# Create the variable again
+health_exp_col <- gender_data$health_exp_per_cap
+
+# Calculate the mean, removing the NA values
+mean(health_exp_col, na.rm=TRUE)
+```
+
+```{r na-hint}
+If you have deleted the code, copy and paste `health_exp_col <- gender_data$health_exp_per_cap` and `mean(health_exp_col)` into the script window.
+```
+
+### A Happy Median
+
+Now you know the two different ways that calculations can deal with `NA` values:
+
+* refuse to do the calculation and return `NA` (usually the default);
+* drop the NA values and do the calculation on the rest.
+
+As you might expect, R has a `median` function, that works in a similar way to the `mean` function. Like the `mean` function, it has an `na.rm` option.
+
+**Q.** First calculate the median of `health_exp_col` the default way, and show the result. It should show `NA`. Then calculate the median of `health_exp_col`, setting the option to drop the `NA` values. `gender_data` is already loaded.
+
+```{r median, exercise=TRUE, exercise.setup="get-gender-data"}
+# Create the variable
+health_exp_col <- gender_data$health_exp_per_cap
+
+# First display the value R returns for the median, by default.
+# Your code will start "median(health_exp_col".
+
+
+# Next display the value R returns for the median, when dropping NA values.
+# Your code will start "median(health_exp_col".
+
+```
+
+```{r median-hint}
+You should have two lines of code, starting `median(health_exp_col`, one that does not drop the `NA` values, and one that does.
+```
+
+
+```{r median-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+health_exp_col <- gender_data$health_exp_per_cap
+
+# First display the value R returns for the median, by default.
+# Your code will start "median(health_exp_col".
+median(health_exp_col)
+
+# Next display the value R returns for the median, when dropping NA values.
+# Your code will start "median(health_exp_col".
+median(health_exp_col, na.rm=TRUE)
+```
+
+```{r median-check}
+state <- ex()
+check_output(state, 'NA',
+             missing_msg='Expecting to NA for the default calculation of median')
+check_output(state, '697\\.8017',
+             missing_msg='Expecting to 697.8017 for median without NA')
+```
+
+### Calculating with Columns
+
+Oftentimes, we want to run calculations on column values.
+
+For example, our data frame has these columns:
+
+* `gdp` : Gross Domestic Product.
+* `population` : total population.
+
+We might want to calculate the Gross Domestic Product per person.
+
+To get the first value of `gdp`, we can use `gender_data$gdp[1]`. Notice the square brackets at the end, and inside the brackets, the index of the value we want. Try it in the code cell below. `gender_data` is already loaded.
+
+```{r gdp, exercise=TRUE, exercise.setup="get-gender-data"}
+# Print the first value of the gdp column
+
+```
+
+`gender_data$population[1]` will give us the first value for `population`.
+
+**Q.** Divide the first value of the `gdp` column by the first value of the `population` column, to give the GDP per person, for the first row. `gender_data` is already loaded.
+
+```{r gdp-pp, exercise=TRUE, exercise.setup="get-gender-data"}
+# Show the first value of gdp divided by the first value in population
+
+```
+
+```{r gdp-pp-hint}
+Are you using `gender_data$gdp[1]` divided by `gender_data$population[1]`?
+```
+
+```{r gdp-pp-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Show the first value of gdp divided by the first value in population
+gender_data$gdp[1] / gender_data$population[1]
+```
+
+```{r gdp-pp-check}
+ex() %>% check_output('610\\.1331',
+             missing_msg='Expecting to see value 610.1331')
+```
+
+### All-at-once Calculations with Columns
+
+You have just divided the first value of the `gdp` column by the first value in the `population` column. How would we do that for all the values in the column? It would be very boring to do:
+
+```
+value1 <- gender_data$gdp[1] / gender_data$population[1]
+value2 <- gender_data$gdp[2] / gender_data$population[2]
+# and so on
+```
+
+R has thought of that. If you divide one (whole) column by another (whole) column, then R divides each value in one column by the corresponding value in the other, all in one go.
+
+Run the code in the cell below, to show the result of dividing the `gdp` column by the `population` column. Check that the first value is the same as the value you saw in the previous exercise. `gender_data` is already loaded.
+
+```{r whole-divide, exercise=TRUE, exercise.setup="get-gender-data"}
+# Divide the gdp column by the population column, for all rows
+gender_data$gdp / gender_data$population
+```
+
+```{r whole-divide-hint}
+If you have deleted the code, copy paste `gender_data$gdp / gender_data$population` into the script window.
+```
+
+### Full Cash Value
+
+Have a look at [the column descriptions](http://bit.ly/gender-stats-variables) for this data file.
+
+The column `health_exp_per_cap` is the health expenditure per person in the country.
+
+Now we want to calculate the total dollar expenditure on health.
+
+**Q.** Calculate and show the total dollar health expenditure for every country, by multiplying the values in the `health_exp_per_cap` column by the corresponding values in the `population` column.  `gender_data` is already loaded.
+
+If you did it right, you will see lots of big numbers in scientific notation, like `5.271766e+09` ($5.271766 * 10^9$).
+
+```{r total-dollar, exercise=TRUE, exercise.setup="get-gender-data"}
+# Multiply the 'health_exp_per_cap` values by the 'population' values.
+
+```
+
+```{r total-dollar-hint}
+Multiply `gender_data$health_exp_per_cap` by `gender_data$population`.
+```
+
+```{r total-dollar-solution}
+# Load in te data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Multiply the 'health_exp_per_cap` values by the 'population' values.
+gender_data$health_exp_per_cap * gender_data$population
+```
+
+```{r total-dollar-check}
+ex() %>% check_output(.,
+  '5\\.271766e\\+09[[:space:]]+1\\.658458e\\+09[[:space:]]+3\\.404615e\\+10',
+  missing_msg='Expecting values to start with 5.271766e+09 1.658458e+09 3.404615e+10 - did you multiply the right columns?')
+```
+
+## 4. Looking at Data with Plots
+
+R has very powerful tools for looking at data with plots. We explore some simple plots.
+
+### Histograms
+
+R has a very powerful set of functions for plotting data.
+
+It is easy to make simple plots, but with a little experience, you can make almost any plot you want.
+
+To start, we will explore the values in the `mat_mort_ratio` column of our data frame.
+
+One simple thing we could do is a histogram. R has a `hist` function, to make histograms. Here you will make a histogram for the `mat_mort_ratio` column.
+
+Run the code in the cell below, to show the histogram of the `mat_mort_ratio` values. `gender_data` is already loaded.
+
+```{r hist, exercise=TRUE, exercise.setup="get-gender-data"}
+# Show a histogram of the `mat_mort_ratio` values.
+hist(gender_data$mat_mort_ratio)
+```
+
+```{r hist-hint}
+If you have deleted the code, copy paste `hist(gender_data$mat_mort_ratio)` into the script window.
+```
+
+### Hist Yourself
+
+At the beginning of this tutorial, you did a plot of the values in the `health_exp_per_cap` column against the matching values in the `mat_mort_ratio` column.
+
+You have just done the histogram for `mat_mort_ratio`. Now do the histogram for `health_exp_per_cap`.
+
+**Q.** Show the histogram of the values in the `health_exp_per_cap` column of `gender_data`.  `gender_data` is already loaded.
+
+```{r hist2, exercise=TRUE, exercise.setup="get-gender-data"}
+# Show the histogram for the 'health_exp_per_cap' column of 'gender_data'
+
+```
+
+```{r hist2-hint}
+Did you call the `hist` function on the values of the `health_exp_per_cap` column?
+```
+
+```{r hist2-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Show the histogram for the 'health_exp_per_cap' column of 'gender_data'
+hist(gender_data$health_exp_per_cap)
+```
+
+```{r hist2-check}
+ex() %>% {
+  check_function(., "hist") %>% check_arg("x") %>% check_equal()
+  }
+```
+
+### Histograms, Variables
+
+Here is some revision on variables.
+
+Remember, all that time ago, you made a variable `health_exp_col` that pointed to the `healt_exp_per_cap` column in `gender_data`? You did it like this:
+
+```
+health_exp_col <- gender_data$health_exp_per_cap
+```
+
+Because `health_exp_col` now points to the same values as `gender_data$health_exp_per_cap`, if you do `hist(health_exp_col)`, you will get the same histogram as you would for `hist(gender_data$health_exp_per_cap)`.
+
+**Q.** Make a new variable `mat_mort_col` that points to the `mat_mort_ratio` column of `gender_data`. Then show a histogram of the values of `mat_mort_col`. `gender_data` is already loaded.
+
+```{r hist3, exercise=TRUE, exercise.setup="get-gender-data"}
+# Make a new variable 'mat_mort_col' that points to the 'mat_mort_ratio' colummn.
+
+
+# Do a histogram on the values of 'mat_mort_col'
+
+
+```
+
+```{r hist3-hint}
+Do you have a variable `mat_mort_col` that points to `gender_data$mat_mort_ratio`?
+```
+
+```{r hist3-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Make a new variable 'mat_mort_col' that points to the 'mat_mort_ratio' colummn.
+mat_mort_col <- gender_data$mat_mort_ratio
+
+# Do a histogram on the values of 'mat_mort_col'
+hist(mat_mort_col)
+```
+
+```{r hist3-check}
+ex() %>% {
+  check_object(., "mat_mort_col") %>% check_equal()
+  check_function(., "hist") %>% check_arg("x") %>% check_equal()
+  }
+```
+
+### Scatter Plots
+
+Now we are ready to go back to the plot we did at the start of this tutorial.
+
+So far, the functions we have used, have had one argument - and so one variable between the parentheses. For example:
+
+```
+head(gender_data)
+hist(mat_mort_col)
+```
+
+We are now going to use the `plot` function. That usually takes two arguments \- and therefore, has two variables between the parentheses. The two arguments are the values for the x axis and the values for the y axis.
+
+The cell below contains the code to plot the `health_exp_per_cap` column of `gender_data` against the `mat_mort_ratio` column of `gender_data`. Run the code to see the result. `gender_data` is already loaded.
+
+```{r scatter, exercise=TRUE, exercise.setup="get-gender-data"}
+# Plot 'health_exp_per_cap' (x axis) against 'mat_mort_ratio' (y axis).
+plot(gender_data$health_exp_per_cap, gender_data$mat_mort_ratio)
+```
+
+```{r scatter-hint}
+If you have deleted the code, copy paste `plot(gender_data$health_exp_per_cap, gender_data$mat_mort_ratio)`.
+```
+
+### You Scatter
+
+You are well on your way to masteRy.
+
+Here is an exercise that is a little more difficult, to stretch your new skills.
+
+You are going to plot the total health expenditure for each country against the maternal mortality ratio. You first have to calculate the total health expenditure, and then plot it against the `mat_mort_ratio` column of the data frame.
+
+**Q.** Make a new variable `total_health_exp` with the total dollar health expenditure for every country. The variable should be the multiplication of the values in the `health_exp_per_cap` column by the corresponding values in the `population` column. `gender_data` is already loaded.
+
+Plot `total_health_exp` (on the x axis) against the values from the `mat_mort_ratio` column (on the y axis).
+
+```{r scatter2, exercise=TRUE, exercise.setup="get-gender-data"}
+# Make a new variable 'total_health_exp' that contains the 'health_exp_per_cap' column times the 'population' column.
+
+
+# Plot 'total_health_exp' on the x axis, 'mat_mort_ratio' column on y axis
+
+
+```
+
+```{r scatter2-hint}
+Did you calculate `total_health_exp` with `gender_data$health_exp_per_cap * gender_data$population`?
+```
+
+```{r scatter2-solution}
+# Load in the data
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+
+# Make a new variable 'total_health_exp' that contains
+# the 'health_exp_per_cap' column times the 'population' column.
+total_health_exp <- gender_data$health_exp_per_cap * gender_data$population
+
+# Plot 'total_health_exp' on the x axis, 'mat_mort_ratio' column on y axis
+plot(total_health_exp, gender_data$mat_mort_ratio)
+```
+
+```{r scatter2-check}
+ex() %>% {
+  check_object(., "total_health_exp") %>% check_equal()
+  check_function(., "plot") %>% {
+    check_arg(., "x") %>% check_equal()
+    check_arg(., "y") %>% check_equal()
+  }
+}
+```
