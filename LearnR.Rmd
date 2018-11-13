@@ -418,10 +418,11 @@ You have can also use the `tail` function. By default, that will show the last s
 
 **Q.** Use the `head` function with the `gender_data` data frame, to show the first six rows of the data frame. Then show the _last_ six rows with `tail`.
 
-```{r headtail, exercise=TRUE}
-# Load in the data
+```{r get-gender-data}
 gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```
 
+```{r headtail, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display the first six rows from the gender_data data frame.
 
 
@@ -445,20 +446,12 @@ tail(gender_data)
 ```
 
 ``` {r headtail-check}
-#state <- ex()
-#ex() %>% check_function("head") %>% check_result() %>% check_equal()
-#check_function(state, "head") %>% check_arg("x") %>% check_equal()
-
-# This is the section of failing code
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-setup_state(sol_code = "head", stu_code = "head")
-ex() %>% check_output(.,
-   '1    Afghanistan   4\\.95450  19961015094[[:space:]]+     161\\.1380',
-   missing_msg='Did you display the value for "head(gender_data)"?')
-
-ex() %>% check_function("tail") %>% check_result() %>% check_equal()
 state <- ex()
+check_function(state, "head") %>% check_arg("x") %>% check_equal()
 check_function(state, "tail") %>% check_arg("x") %>% check_equal()
+check_output(state,
+   '1[[:space:]]+Afghanistan[[:space:]]+4\\.95450[[:space:]]+19961015094[[:space:]]+161\\.1380',
+   missing_msg='Did you display the value for "head(gender_data)"?')
 ```
 
 ## 3. Working with Columns
