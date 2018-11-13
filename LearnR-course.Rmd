@@ -436,12 +436,12 @@ tail(gender_data)
 ```
 
 ``` {r headtail-check}
-ex() %>% check_function("head") %>% check_result() %>% check_equal()
 state <- ex()
+
+check_function(state, "head") %>% check_result() %>% check_equal()
 check_function(state, "head") %>% check_arg("x") %>% check_equal()
 
-ex() %>% check_function("tail") %>% check_result() %>% check_equal()
-state <- ex()
+check_function(state, "tail") %>% check_result() %>% check_equal()
 check_function(state, "tail") %>% check_arg("x") %>% check_equal()
 ```
 
