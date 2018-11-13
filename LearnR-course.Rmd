@@ -183,9 +183,13 @@ On the Left Hand Side we have `gender_data` - the new name we give to the thing 
 
 R has many useful functions that work on data frames.  Let's start with the function `dim`.
 
-The `dim` function displays the number of rows and columns in the data frame. In the code cell, you will see the code to call the `dim` function with the `gender_data` data frame as the argument. Run the code to see what `dim` returns.
+The `dim` function displays the number of rows and columns in the data frame. In the code cell, you will see the code to call the `dim` function with the `gender_data` data frame as the argument. Run the code to see what `dim` returns. `gender_data` is already loaded.
 
-```{r dim, exercise=TRUE}
+```{r get-gender-data}
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```
+
+```{r dim, exercise=TRUE, exercise.setup="get-gender-data"}
 # Read in the data
 gender_data <- read.csv('http://bit.ly/gender-stats-data')
 
@@ -223,12 +227,9 @@ For example, say we have a variable `df` that points to a data frame.  We can sh
 names(df)
 ```
 
-**Q.** Use the `names` function with the `gender_data` data frame as an argument, to show the names of the data frame columns.
+**Q.** Use the `names` function with the `gender_data` data frame as an argument, to show the names of the data frame columns. `gender_data` is already loaded.
 
-```{r names, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r names, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display the names from the gender_data data frame
 
 ```
@@ -273,12 +274,9 @@ To get help for a function, go to the code cell below, and type `?` followed by 
 
 As you will see from the help, `str` shows the "structure" of an R "object" - such as a data frame.
 
-**Q.** Use the `str` function with the `gender_data` data frame as an argument, to show the structure of the `gender_data` data frame.
+**Q.** Use the `str` function with the `gender_data` data frame as an argument, to show the structure of the `gender_data` data frame. `gender_data` is already loaded.
 
-```{r structure, exercise=TRUE}
-# Load the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r structure, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display the structure of the gender_data data frame
 
 ```
@@ -342,12 +340,9 @@ Try `?summary` in the code cell for more information.
 
 For the numerical columns, you will see minimum, maximum, median, mean, and various other useful descriptive statistics.
 
-**Q.** Use the `summary` function with the `gender_data` data frame as an argument, to show descriptive statistics for each column.
+**Q.** Use the `summary` function with the `gender_data` data frame as an argument, to show descriptive statistics for each column. `gender_data` is already loaded.
 
-```{r summary, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r summary, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display summary statistics from the gender_data data frame
 
 ```
@@ -415,12 +410,9 @@ You have already seen the `head` function. By default, `head` will show the firs
 
 You have can also use the `tail` function. By default, that will show the last six rows in a data frame (and all the columns).
 
-**Q.** Use the `head` function with the `gender_data` data frame, to show the first six rows of the data frame. Then show the _last_ six rows with `tail`.
+**Q.** Use the `head` function with the `gender_data` data frame, to show the first six rows of the data frame. Then show the _last_ six rows with `tail`. `gender_data` is already loaded.
 
-```{r headtail, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r headtail, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display the first six rows from the gender_data data frame.
 
 
@@ -471,12 +463,9 @@ For example, to display all the values in the `health_exp_per_cap` column of the
 gender_data$health_exp_per_cap
 ```
 
-**Q.** Try it in the code cell below. Use the `$` method to display all the values in the `mat_mort_ratio` column of `gender_data`.
+**Q.** Try it in the code cell below. Use the `$` method to display all the values in the `mat_mort_ratio` column of `gender_data`. `gender_data` is already loaded.
 
-```{r dollar, exercise=TRUE}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r dollar, exercise=TRUE, exercise.setup="get-gender-data"}
 # Display all values of the mat_mort_ration column
 
 ```
@@ -517,12 +506,9 @@ Instead of printing out the values in the column, we may want to point to these 
 mat_mort_vals <- gender_data$mat_mort_ratio
 ```
 
-**Q.** Make a new variable `health_exp_col` that points to the `health_exp_per_cap` column in the `gender_data` data frame.  Display the contents of your new `health_exp_col` variable.
+**Q.** Make a new variable `health_exp_col` that points to the `health_exp_per_cap` column in the `gender_data` data frame.  Display the contents of your new `health_exp_col` variable. `gender_data` is already loaded.
 
-```{r point, exercise=TRUE}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r point, exercise=TRUE, exercise.setup="get-gender-data"}
 # Make a variable pointing to the health_exp_per_cap column
 
 
@@ -562,12 +548,9 @@ Look at the last ten values or so of `health_exp_col`. Most of these are numbers
 
 `NA` is a value in R that means "Not available". For our case, some countries (rows) had no data available for health expenditure per capita between 2012 and 2016.
 
-Now use the code cell to show the last 6 rows in the data frame with `tail(gender_data)`. Look at the `health_exp_per_cap` column.
+Now use the code cell to show the last 6 rows in the data frame with `tail(gender_data)`. Look at the `health_exp_per_cap` column. `gender_data` is already loaded.
 
-```{r dftail, exercise=TRUE}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r dftail, exercise=TRUE, exercise.setup="get-gender-data"}
 # Use tail on gender_data
 
 ```
@@ -598,12 +581,9 @@ Now consider what would happen if we calculate a mean over these values. Some th
 * refuse to do a calculation with `NA` values and show an error.
 * drop all the NA values, and take the mean of the rest.
 
-Run `mean(health_exp_col)` in the code cell below and look at the result.
+Run `mean(health_exp_col)` in the code cell below and look at the result. `gender_data` is already loaded.
 
-```{r mean, exercise=TRUE}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r mean, exercise=TRUE, exercise.setup="get-gender-data"}
 # Make a variable pointing to the health_exp_per_cap column
 health_exp_col <- gender_data$health_exp_per_cap
 
@@ -637,11 +617,10 @@ Almost all functions in R allow us to give extra _options_. We do this using som
 
 In our case, we want to use the `na.rm` option.
 
-The code to use the `na.rm` option is in the script window. Run the code to see the result.
+The code to use the `na.rm` option is in the script window. Run the code to see the result. `gender_data` is already loaded.
 
-```{r na, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```{r na, exercise=TRUE, exercise.setup="get-gender-data"}
+# Create the variable again
 health_exp_col <- gender_data$health_exp_per_cap
 
 # Calculate the mean, removing the NA values
@@ -661,11 +640,10 @@ Now you know the two different ways that calculations can deal with `NA` values:
 
 As you might expect, R has a `median` function, that works in a similar way to the `mean` function. Like the `mean` function, it has an `na.rm` option.
 
-**Q.** First calculate the median of `health_exp_col` the default way, and show the result. It should show `NA`. Then calculate the median of `health_exp_col`, setting the option to drop the `NA` values.
+**Q.** First calculate the median of `health_exp_col` the default way, and show the result. It should show `NA`. Then calculate the median of `health_exp_col`, setting the option to drop the `NA` values. `gender_data` is already loaded.
 
-```{r median, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
+```{r median, exercise=TRUE, exercise.setup="get-gender-data"}
+# Create the variable
 health_exp_col <- gender_data$health_exp_per_cap
 
 # First display the value R returns for the median, by default.
@@ -715,24 +693,18 @@ For example, our data frame has these columns:
 
 We might want to calculate the Gross Domestic Product per person.
 
-To get the first value of `gdp`, we can use `gender_data$gdp[1]`. Notice the square brackets at the end, and inside the brackets, the index of the value we want. Try it in the code cell below.
+To get the first value of `gdp`, we can use `gender_data$gdp[1]`. Notice the square brackets at the end, and inside the brackets, the index of the value we want. Try it in the code cell below. `gender_data` is already loaded.
 
-```{r gdp, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r gdp, exercise=TRUE, exercise.setup="get-gender-data"}
 # Print the first value of the gdp column
 
 ```
 
 `gender_data$population[1]` will give us the first value for `population`.
 
-**Q.** Divide the first value of the `gdp` column by the first value of the `population` column, to give the GDP per person, for the first row.
+**Q.** Divide the first value of the `gdp` column by the first value of the `population` column, to give the GDP per person, for the first row. `gender_data` is already loaded.
 
-```{r gdp-pp, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r gdp-pp, exercise=TRUE, exercise.setup="get-gender-data"}
 # Show the first value of gdp divided by the first value in population
 
 ```
@@ -766,12 +738,9 @@ value2 <- gender_data$gdp[2] / gender_data$population[2]
 
 R has thought of that. If you divide one (whole) column by another (whole) column, then R divides each value in one column by the corresponding value in the other, all in one go.
 
-Run the code in the cell below, to show the result of dividing the `gdp` column by the `population` column. Check that the first value is the same as the value you saw in the previous exercise.
+Run the code in the cell below, to show the result of dividing the `gdp` column by the `population` column. Check that the first value is the same as the value you saw in the previous exercise. `gender_data` is already loaded.
 
-```{r whole-divide, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r whole-divide, exercise=TRUE, exercise.setup="get-gender-data"}
 # Divide the gdp column by the population column, for all rows
 gender_data$gdp / gender_data$population
 ```
@@ -788,14 +757,11 @@ The column `health_exp_per_cap` is the health expenditure per person in the coun
 
 Now we want to calculate the total dollar expenditure on health.
 
-**Q.** Calculate and show the total dollar health expenditure for every country, by multiplying the values in the `health_exp_per_cap` column by the corresponding values in the `population` column.
+**Q.** Calculate and show the total dollar health expenditure for every country, by multiplying the values in the `health_exp_per_cap` column by the corresponding values in the `population` column. `gender_data` is already loaded.
 
 If you did it right, you will see lots of big numbers in scientific notation, like `5.271766e+09` ($5.271766 * 10^9$).
 
-```{r total-dollar, exercise=TRUE}
-# Load in te data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r total-dollar, exercise=TRUE, exercise.setup="get-gender-data"}
 # Multiply the 'health_exp_per_cap` values by the 'population' values.
 
 ```
@@ -832,12 +798,9 @@ To start, we will explore the values in the `mat_mort_ratio` column of our data 
 
 One simple thing we could do is a histogram. R has a `hist` function, to make histograms. Here you will make a histogram for the `mat_mort_ratio` column.
 
-Run the code in the cell below, to show the histogram of the `mat_mort_ratio` values.
+Run the code in the cell below, to show the histogram of the `mat_mort_ratio` values. `gender_data` is already loaded.
 
-```{r hist, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r hist, exercise=TRUE, exercise.setup="get-gender-data"}
 # Show a histogram of the `mat_mort_ratio` values.
 hist(gender_data$mat_mort_ratio)
 ```
@@ -852,12 +815,9 @@ At the beginning of this tutorial, you did a plot of the values in the `health_e
 
 You have just done the histogram for `mat_mort_ratio`. Now do the histogram for `health_exp_per_cap`.
 
-**Q.** Show the histogram of the values in the `health_exp_per_cap` column of `gender_data`.
+**Q.** Show the histogram of the values in the `health_exp_per_cap` column of `gender_data`. `gender_data` is already loaded.
 
-```{r hist2, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r hist2, exercise=TRUE, exercise.setup="get-gender-data"}
 # Show the histogram for the 'health_exp_per_cap' column of 'gender_data'
 
 ```
@@ -892,17 +852,13 @@ health_exp_col <- gender_data$health_exp_per_cap
 
 Because `health_exp_col` now points to the same values as `gender_data$health_exp_per_cap`, if you do `hist(health_exp_col)`, you will get the same histogram as you would for `hist(gender_data$health_exp_per_cap)`.
 
-**Q.** Make a new variable `mat_mort_col` that points to the `mat_mort_ratio` column of `gender_data`. Then show a histogram of the values of `mat_mort_col`.
+**Q.** Make a new variable `mat_mort_col` that points to the `mat_mort_ratio` column of `gender_data`. Then show a histogram of the values of `mat_mort_col`. `gender_data` is already loaded.
 
-```{r hist3, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r hist3, exercise=TRUE, exercise.setup="get-gender-data"}
 # Make a new variable 'mat_mort_col' that points to the 'mat_mort_ratio' colummn.
 
 
 # Do a histogram on the values of 'mat_mort_col'
-
 
 ```
 
@@ -941,12 +897,9 @@ hist(mat_mort_col)
 
 We are now going to use the `plot` function. That usually takes two arguments \- and therefore, has two variables between the parentheses. The two arguments are the values for the x axis and the values for the y axis.
 
-The cell below contains the code to plot the `health_exp_per_cap` column of `gender_data` against the `mat_mort_ratio` column of `gender_data`. Run the code to see the result.
+The cell below contains the code to plot the `health_exp_per_cap` column of `gender_data` against the `mat_mort_ratio` column of `gender_data`. Run the code to see the result. `gender_data` is already loaded.
 
-```{r scatter, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r scatter, exercise=TRUE, exercise.setup="get-gender-data"}
 # Plot 'health_exp_per_cap' (x axis) against 'mat_mort_ratio' (y axis).
 plot(gender_data$health_exp_per_cap, gender_data$mat_mort_ratio)
 ```
@@ -963,19 +916,15 @@ Here is an exercise that is a little more difficult, to stretch your new skills.
 
 You are going to plot the total health expenditure for each country against the maternal mortality ratio. You first have to calculate the total health expenditure, and then plot it against the `mat_mort_ratio` column of the data frame.
 
-**Q.** Make a new variable `total_health_exp` with the total dollar health expenditure for every country. The variable should be the multiplication of the values in the `health_exp_per_cap` column by the corresponding values in the `population` column.
+**Q.** Make a new variable `total_health_exp` with the total dollar health expenditure for every country. The variable should be the multiplication of the values in the `health_exp_per_cap` column by the corresponding values in the `population` column. `gender_data` is already loaded.
 
 Plot `total_health_exp` (on the x axis) against the values from the `mat_mort_ratio` column (on the y axis).
 
-```{r scatter2, exercise=TRUE}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
+```{r scatter2, exercise=TRUE, exercise.setup="get-gender-data"}
 # Make a new variable 'total_health_exp' that contains the 'health_exp_per_cap' column times the 'population' column.
 
 
 # Plot 'total_health_exp' on the x axis, 'mat_mort_ratio' column on y axis
-
 
 ```
 
