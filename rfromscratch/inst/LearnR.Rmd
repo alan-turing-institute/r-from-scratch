@@ -43,9 +43,7 @@ Click on the "Run Code" button to run the analysis.  You will see the output bel
 
 ```{r example, exercise=TRUE}
 # Read the data into memory
-print("here")
-print(getwd())
-gender_data <- read.csv('gender_data.csv')
+gender_data <- read.csv('http://bit.ly/gender-stats-data')
 
 # Show the first 6 rows
 head(gender_data)
@@ -191,7 +189,7 @@ R has many useful functions that work on data frames.  Let's start with the func
 The `dim` function displays the number of rows and columns in the data frame. In the code cell, you will see the code to call the `dim` function with the `gender_data` data frame as the argument (`gender_data` is already loaded). Run the code to see what `dim` returns.
 
 ```{r get-gender-data}
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
+gender_data <- rfromscratch::gender_data
 ```
 
 ```{r dim, exercise=TRUE, exercise.setup="get-gender-data"}
@@ -241,23 +239,17 @@ You will need something starting with `names(` and ending with `)`. What goes in
 ```
 
 ```{r names-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Display the names from the gender_data data frame
-names(gender_data)
+names(rfromscratch::gender_data)
 ```
 
 ```{r names-check}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 ex() %>% check_function("names") %>% {
   check_arg(., "x") %>% check_equal()
 }
 
 state <- ex()
-for (name in names(gender_data)) {
+for (name in names(rfromscratch::gender_data)) {
   check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
 }
 ```
@@ -288,21 +280,15 @@ You will need something starting with `str(` and ending with `)`. What goes insi
 ```
 
 ```{r structure-solution}
-# Load the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Display the structure of the gender_data data frame
-str(gender_data)
+str(rfromscratch::gender_data)
 ```
 
 ```{r structure-check}
-# Load the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 state <- ex()
 check_function(state, "str") %>% check_arg("object") %>% check_equal()
 
-for (name in names(gender_data)) {
+for (name in names(rfromscratch::gender_data)) {
   check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
 }
 
@@ -354,21 +340,15 @@ You will need something starting with `summary(` and ending with `)`. What goes 
 ```
 
 ```{r summary-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Display summary statistics from the gender_data data frame
-summary(gender_data)
+summary(rfromscratch::gender_data)
 ```
 
 ```{r summary-check}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 state <- ex()
 check_function(state, "summary") %>% check_arg("object") %>% check_equal()
 
-for (name in names(gender_data)) {
+for (name in names(rfromscratch::gender_data)) {
   check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
 }
 
@@ -427,14 +407,11 @@ Did you use both `head` and `tail` on `gender_data`?
 ```
 
 ```{r headtail-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Display the first six rows from the gender_data data frame.
-head(gender_data)
+head(rfromscratch::gender_data)
 
 # Now display the last six rows from the data frame.
-tail(gender_data)
+tail(rfromscratch::gender_data)
 ```
 
 ``` {r headtail-check}
@@ -476,11 +453,8 @@ You should have something like `gender_data$` followed by the column name.
 ```
 
 ```{r dollar-solution}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Display all values of the mat_mort_ration column
-gender_data$mat_mort_ratio
+rfromscratch::gender_data$mat_mort_ratio
 ```
 
 ```{r dollar-check}
@@ -522,11 +496,8 @@ You should start with a line starting `health_exp_col <- gender_data$`.
 ```
 
 ```{r point-solution}
-# Load in data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Make a variable pointing to the health_exp_per_cap column
-health_exp_col <- gender_data$health_exp_per_cap
+health_exp_col <- rfromscratch::gender_data$health_exp_per_cap
 
 # Display the contents of your new variable
 health_exp_col
@@ -662,17 +633,13 @@ You should have two lines of code, starting `median(health_exp_col`, one that do
 
 
 ```{r median-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-health_exp_col <- gender_data$health_exp_per_cap
-
 # First display the value R returns for the median, by default.
 # Your code will start "median(health_exp_col".
-median(health_exp_col)
+median(rfromscratch::gender_data$health_exp_per_cap)
 
 # Next display the value R returns for the median, when dropping NA values.
 # Your code will start "median(health_exp_col".
-median(health_exp_col, na.rm=TRUE)
+median(rfromscratch::gender_data$health_exp_per_cap, na.rm=TRUE)
 ```
 
 ```{r median-check}
@@ -715,11 +682,8 @@ Are you using `gender_data$gdp[1]` divided by `gender_data$population[1]`?
 ```
 
 ```{r gdp-pp-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Show the first value of gdp divided by the first value in population
-gender_data$gdp[1] / gender_data$population[1]
+rfromscratch::gender_data$gdp[1] / rfromscratch::gender_data$population[1]
 ```
 
 ```{r gdp-pp-check}
@@ -772,11 +736,8 @@ Multiply `gender_data$health_exp_per_cap` by `gender_data$population`.
 ```
 
 ```{r total-dollar-solution}
-# Load in te data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Multiply the 'health_exp_per_cap` values by the 'population' values.
-gender_data$health_exp_per_cap * gender_data$population
+rfromscratch::gender_data$health_exp_per_cap * rfromscratch::gender_data$population
 ```
 
 ```{r total-dollar-check}
@@ -828,11 +789,8 @@ Did you call the `hist` function on the values of the `health_exp_per_cap` colum
 ```
 
 ```{r hist2-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Show the histogram for the 'health_exp_per_cap' column of 'gender_data'
-hist(gender_data$health_exp_per_cap)
+hist(rfromscratch::gender_data$health_exp_per_cap)
 ```
 
 ```{r hist2-check}
@@ -869,11 +827,8 @@ Do you have a variable `mat_mort_col` that points to `gender_data$mat_mort_ratio
 ```
 
 ```{r hist3-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Make a new variable 'mat_mort_col' that points to the 'mat_mort_ratio' colummn.
-mat_mort_col <- gender_data$mat_mort_ratio
+mat_mort_col <- rfromscratch::gender_data$mat_mort_ratio
 
 # Do a histogram on the values of 'mat_mort_col'
 hist(mat_mort_col)
@@ -936,15 +891,12 @@ Did you calculate `total_health_exp` with `gender_data$health_exp_per_cap * gend
 ```
 
 ```{r scatter2-solution}
-# Load in the data
-gender_data <- read.csv('http://bit.ly/gender-stats-data')
-
 # Make a new variable 'total_health_exp' that contains
 # the 'health_exp_per_cap' column times the 'population' column.
-total_health_exp <- gender_data$health_exp_per_cap * gender_data$population
+total_health_exp <- rfromscratch::gender_data$health_exp_per_cap * rfromscratch::gender_data$population
 
 # Plot 'total_health_exp' on the x axis, 'mat_mort_ratio' column on y axis
-plot(total_health_exp, gender_data$mat_mort_ratio)
+plot(total_health_exp, rfromscratch::gender_data$mat_mort_ratio)
 ```
 
 ```{r scatter2-check}
