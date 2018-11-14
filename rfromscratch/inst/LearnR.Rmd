@@ -151,7 +151,9 @@ class(gender_data)
 ```
 
 ```{r class-check}
-ex() %>% check_output("data\\.frame", missing_msg = "Did you display the class() of the gender_data?")
+state <- ex()
+check_function(state, "class") %>% check_arg(., "x") %>% check_equal()
+check_function(state, "class") %>% check_result() %>% check_equal()
 ```
 
 ## 2. Data Frames and Functions
@@ -292,8 +294,7 @@ for (name in names(rfromscratch::gender_data)) {
   check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
 }
 
-check_output(state, '263 obs. of  8 variables',
-             missing_msg='Expecting to see no of observations and variables')
+check_function(state, "str") %>% check_result() %>% check_equal()
 ```
 
 ```{r quiz2, echo=FALSE}
@@ -352,10 +353,7 @@ for (name in names(rfromscratch::gender_data)) {
   check_output(state, name, missing_msg=paste('Expecting "', name, '" in ouput', sep=''))
 }
 
-check_output(state, 'Median',
-             missing_msg='Expecting to see medians')
-check_output(state, "NA's   :34",
-             missing_msg='Expecting to see NA counts')
+check_function(state, "summary") %>% check_result() %>% check_equal()
 ```
 
 ### What's in a summary?
@@ -794,9 +792,8 @@ hist(rfromscratch::gender_data$health_exp_per_cap)
 ```
 
 ```{r hist2-check}
-ex() %>% {
-  check_function(., "hist") %>% check_arg("x") %>% check_equal()
-  }
+state <- ex()
+check_function(state, "hist") %>% check_arg("x") %>% check_equal()
 ```
 
 ### Histograms, Variables

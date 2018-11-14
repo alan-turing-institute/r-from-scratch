@@ -2,8 +2,9 @@ Package: rfromscratch
 Type: Package
 Title: Runs an R Tutorial in a Shiny App with a Data Frame
 Version: 0.1.0
-Author: person("S", "Gibson", role = c("aut", "cre"),
-               email = "sgibson@turing.ac.uk")
+Author: c(person("M", "Brett", role = c("aut", "cre)),
+          person("S", "Gibson", role = c("aut", "cre"),
+                 email = "sgibson@turing.ac.uk"))
 Maintainer: S Gibson <sgibson@turing.ac.uk>
 Description: Runs the R Markdown file LearnR.Rmd in a web app
 License: GPL-2 | file LICENSE
