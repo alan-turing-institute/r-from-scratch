@@ -11,19 +11,23 @@ RUN Rscript -e "install.packages('shiny')"
 RUN Rscript -e "install.packages('shinythemes')"
 RUN Rscript -e "install.packages('ggplot2')"
 RUN Rscript -e "install.packages('learnr')"
+RUN Rscript -e "install.packages('remotes')"
+RUN Rscript -e "remotes::install_github('datacamp/testwhat')"
 
 RUN Rscript -e "install.packages('tools')"
 RUN Rscript -e "install.packages('rmarkdown')"
+RUN Rscript -e "remotes::install_github('alan-turing-institute/r-from-scratch', ref='r-package', subdir='rfromscratch')"
 
 ADD . LearnRWebApp
 WORKDIR LearnRWebApp
 
 # azure config
-ENV AZURE_STORAGE_ACCOUNT rshinytest16102018
-ENV AZURE_STORAGE_ACCESS_KEY haFJsUOeYbeW+MOrv47OJu0aSw0BsHTuJ4ZU9wvOLrm3LKynmZrIKsDMZ2PISUA81LS4FeAXds67PhBUG9oxkw==
-ENV AZURE_CONTAINER rshinytest16102018container
+ENV AZURE_STORAGE_ACCOUNT rfromscratch
+ENV AZURE_STORAGE_ACCESS_KEY kbKzhNszYXHYX/EQcZYEm+wKdTH++s2ooXI4uKDiAH9bmVblzGgCuB74KDvh1y9pSdvNEbrA/fjO2FcFfuyGBA==
+ENV AZURE_CONTAINER rfromscratch-container
 
 # expose R Shiny port
 EXPOSE 1111
 
 CMD ["./shiny.sh"]
+#CMD ["/bin/bash"]
